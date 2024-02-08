@@ -1,7 +1,7 @@
 //=====[#include guards - begin]===============================================
 
-#ifndef _ENGINE_
-#define _ENGINE_
+#ifndef _ENGINE_H_
+#define _ENGINE_H_
 
 //=====[Declaration of public defines]=========================================
 

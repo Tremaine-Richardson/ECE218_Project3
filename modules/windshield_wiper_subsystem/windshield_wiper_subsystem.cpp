@@ -2,13 +2,10 @@
 
 #include "arm_book_lib.h"
 
-#include "smart_home_system.h"
+#include "windshield_wiper_subsystem.h"
 
-#include "siren.h"
 #include "user_interface.h"
-#include "fire_alarm.h"
-#include "pc_serial_com.h"
-#include "event_log.h"
+#include "engine.h"
 
 //=====[Declaration of private defines]========================================
 
@@ -26,19 +23,16 @@
 
 //=====[Implementations of public functions]===================================
 
-void smartHomeSystemInit()
+void windshieldWiperSubsystemInit()
 {
     userInterfaceInit();
-    fireAlarmInit();
-    pcSerialComInit();
+    engineInit();
 }
 
-void smartHomeSystemUpdate()
+void windshieldWiperSubsystemUpdate()
 {
     userInterfaceUpdate();
-    fireAlarmUpdate();    
-    pcSerialComUpdate();
-    eventLogUpdate();
+    engineUpdate();
     delay(SYSTEM_TIME_INCREMENT_MS);
 }
 

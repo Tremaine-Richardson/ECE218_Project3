@@ -22,20 +22,12 @@ DigitalOut engineLed(LED2);
 
 //=====[Declaration and initialization of public global variables]=============
 
-char codeSequenceFromUserInterface[CODE_NUMBER_OF_KEYS];
-
 //=====[Declaration and initialization of private global variables]============
 
-static bool incorrectCodeState = OFF;
 static bool engineState = OFF;
-
-static bool codeComplete = false;
-static int numberOfCodeChars = 0;
 
 //=====[Declarations (prototypes) of private functions]========================
 
-static void userInterfaceMatrixKeypadUpdate();
-static void incorrectCodeIndicatorUpdate();
 static void engineIndicatorUpdate();
 
 static void userInterfaceDisplayInit();

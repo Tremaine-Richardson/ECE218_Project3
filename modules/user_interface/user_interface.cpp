@@ -5,14 +5,7 @@
 
 #include "user_interface.h"
 
-#include "code.h"
-#include "siren.h"
 #include "smart_home_system.h"
-#include "fire_alarm.h"
-#include "date_and_time.h"
-#include "temperature_sensor.h"
-#include "gas_sensor.h"
-#include "matrix_keypad.h"
 #include "display.h"
 
 //=====[Declaration of private defines]========================================
@@ -24,7 +17,7 @@
 //=====[Declaration and initialization of public global objects]===============
 
 DigitalOut incorrectCodeLed(LED3);
-DigitalOut systemBlockedLed(LED2);
+DigitalOut engineLed(LED2);
 
 //=====[Declaration of external public global variables]=======================
 
@@ -35,7 +28,7 @@ char codeSequenceFromUserInterface[CODE_NUMBER_OF_KEYS];
 //=====[Declaration and initialization of private global variables]============
 
 static bool incorrectCodeState = OFF;
-static bool systemBlockedState = OFF;
+static bool engineState = OFF;
 
 static bool codeComplete = false;
 static int numberOfCodeChars = 0;

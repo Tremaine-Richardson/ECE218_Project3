@@ -16,7 +16,6 @@
 
 //=====[Declaration and initialization of public global objects]===============
 
-DigitalOut incorrectCodeLed(LED3);
 DigitalOut engineLed(LED2);
 
 //=====[Declaration of external public global variables]=======================
@@ -37,7 +36,7 @@ static int numberOfCodeChars = 0;
 
 static void userInterfaceMatrixKeypadUpdate();
 static void incorrectCodeIndicatorUpdate();
-static void systemBlockedIndicatorUpdate();
+static void engineIndicatorUpdate();
 
 static void userInterfaceDisplayInit();
 static void userInterfaceDisplayUpdate();
@@ -47,80 +46,27 @@ static void userInterfaceDisplayUpdate();
 void userInterfaceInit()
 {
     incorrectCodeLed = OFF;
-    systemBlockedLed = OFF;
-    matrixKeypadInit( SYSTEM_TIME_INCREMENT_MS );
+    engineLed = OFF;
     userInterfaceDisplayInit();
 }
 
 void userInterfaceUpdate()
 {
-    userInterfaceMatrixKeypadUpdate();
-    incorrectCodeIndicatorUpdate();
-    systemBlockedIndicatorUpdate();
+    engineIndicatorUpdate();
     userInterfaceDisplayUpdate();
 }
 
-bool incorrectCodeStateRead()
+bool engineStateRead()
 {
-    return incorrectCodeState;
+    return engineState;
 }
 
-void incorrectCodeStateWrite( bool state )
+void engineStateWrite( bool state )
 {
-    incorrectCodeState = state;
-}
-
-bool systemBlockedStateRead()
-{
-    return systemBlockedState;
-}
-
-void systemBlockedStateWrite( bool state )
-{
-    systemBlockedState = state;
-}
-
-bool userInterfaceCodeCompleteRead()
-{
-    return codeComplete;
-}
-
-void userInterfaceCodeCompleteWrite( bool state )
-{
-    codeComplete = state;
+    engineState = state;
 }
 
 //=====[Implementations of private functions]==================================
-
-static void userInterfaceMatrixKeypadUpdate()
-{
-    static int numberOfHashKeyReleased = 0;
-    char keyReleased = matrixKeypadUpdate();
-
-    if( keyReleased != '\0' ) {
-
-        if( sirenStateRead() && !systemBlockedStateRead() ) {
-            if( !incorrectCodeStateRead() ) {
-                codeSequenceFromUserInterface[numberOfCodeChars] = keyReleased;
-                numberOfCodeChars++;
-                if ( numberOfCodeChars >= CODE_NUMBER_OF_KEYS ) {
-                    codeComplete = true;
-                    numberOfCodeChars = 0;
-                }
-            } else {
-                if( keyReleased == '#' ) {
-                    numberOfHashKeyReleased++;
-                    if( numberOfHashKeyReleased >= 2 ) {
-                        numberOfHashKeyReleased = 0;
-                        numberOfCodeChars = 0;
-                        codeComplete = false;
-                        incorrectCodeState = OFF;
-                    }
-                }
-            }
-        }
-    }
-}
 
 static void userInterfaceDisplayInit()
 {
@@ -174,12 +120,7 @@ static void userInterfaceDisplayUpdate()
     } 
 }
 
-static void incorrectCodeIndicatorUpdate()
+static void engineIndicatorUpdate()
 {
-    incorrectCodeLed = incorrectCodeStateRead();
-}
-
-static void systemBlockedIndicatorUpdate()
-{
-    systemBlockedLed = systemBlockedState;
+    engineLed = engineState;
 }

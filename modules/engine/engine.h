@@ -1,13 +1,16 @@
 //=====[#include guards - begin]===============================================
 
-#ifndef _MODULE_TEMPLATE_H_
-#define _MODULE_TEMPLATE_H_
+#ifndef _ENGINE_
+#define _ENGINE_
 
 //=====[Declaration of public defines]=========================================
 
 //=====[Declaration of public data types]======================================
 
 //=====[Declarations (prototypes) of public functions]=========================
+
+void engineInit();
+void engineUpdate();
 
 //=====[#include guards - end]=================================================
 

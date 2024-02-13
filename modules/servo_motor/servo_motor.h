@@ -1,7 +1,7 @@
 //=====[#include guards - begin]===============================================
 
-#ifndef _MODULE_TEMPLATE_H_
-#define _MODULE_TEMPLATE_H_
+#ifndef _SERVO_MOTOR_H_
+#define _SERVO_MOTOR_H_
 
 //=====[Declaration of public defines]=========================================
 
@@ -9,6 +9,9 @@
 
 //=====[Declarations (prototypes) of public functions]=========================
 
+void servoInit();
+void servoDutyCycleWrite( float cycle );
+
 //=====[#include guards - end]=================================================
 
-#endif // _MODULE_TEMPLATE_H_
+#endif // _SERVO_MOTOR_H_

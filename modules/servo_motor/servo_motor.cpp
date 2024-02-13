@@ -1,8 +1,10 @@
 //=====[Libraries]=============================================================
 
-#include "module_template.h"
+#include "servo_motor.h"
 
 //=====[Declaration of private defines]========================================
+
+#define PERIOD          .02
 
 //=====[Declaration of private data types]=====================================
 
@@ -17,5 +19,15 @@
 //=====[Declarations (prototypes) of private functions]========================
 
 //=====[Implementations of public functions]===================================
+
+void servoInit()
+{
+    servo.period(PERIOD);
+}
+
+void servoDutyCycleWrite( float cycle )
+{
+    servo.write( cycle );
+}
 
 //=====[Implementations of private functions]==================================

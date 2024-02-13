@@ -1,6 +1,6 @@
 //=====[Libraries]=============================================================
 
-#include "module_template.h"
+#include "wipers.h"
 
 //=====[Declaration of private defines]========================================
 

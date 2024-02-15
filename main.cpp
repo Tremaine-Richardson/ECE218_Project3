@@ -1,13 +1,13 @@
 //=====[Libraries]=============================================================
 
-#include "smart_home_system.h"
+#include "windshield_wiper_subsystem.h"
 
 //=====[Main function, the program entry point after power on or reset]========
 
 int main()
 {
-    smartHomeSystemInit();
+    windshieldWiperSubsystemInit();
     while (true) {
-        smartHomeSystemUpdate();
+        windshieldWiperSubsystemUpdate();
     }
 }

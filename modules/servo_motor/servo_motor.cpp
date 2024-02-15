@@ -1,5 +1,8 @@
 //=====[Libraries]=============================================================
 
+#include "mbed.h"
+#include "arm_book_lib.h"
+
 #include "servo_motor.h"
 
 //=====[Declaration of private defines]========================================
@@ -10,7 +13,11 @@
 
 //=====[Declaration and initialization of public global objects]===============
 
+PwmOut servo(PF_9);
+
 //=====[Declaration of external public global variables]=======================
+
+float servoPosition = 0.0;
 
 //=====[Declaration and initialization of public global variables]=============
 
@@ -28,6 +35,12 @@ void servoInit()
 void servoDutyCycleWrite( float cycle )
 {
     servo.write( cycle );
+    servoPosition = cycle
+}
+
+float servoPositionRead()
+{
+    return servoPosition
 }
 
 //=====[Implementations of private functions]==================================

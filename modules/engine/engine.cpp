@@ -5,6 +5,7 @@
 
 #include "engine.h"
 #include "user_interface.h"
+#include "windshield_wiper_subsystem.h"
 
 //=====[Declaration of private defines]========================================
 
@@ -21,8 +22,8 @@ typedef enum {
 
 //=====[Declaration and initialization of public global objects]===============
 
-DigitalIn driverSeat(D2);
-DigitalIn ignitionSwitch(D3);
+DigitalIn driverSeat(D11);
+DigitalIn ignitionSwitch(D10);
 
 //=====[Declaration of external public global variables]=======================
 
@@ -97,7 +98,7 @@ bool ignitionSwitchUpdate()
                 ignitionSwitchState = BUTTON_UP;
             }
         }
-        accumulatedDebounceButtonTime = accumulatedDebounceButtonTime + TIME_INCREMENT_MS;
+        accumulatedDebounceButtonTime = accumulatedDebounceButtonTime + SYSTEM_TIME_INCREMENT_MS;
         break;
 
 
@@ -119,7 +120,7 @@ bool ignitionSwitchUpdate()
             }
         }
         accumulatedDebounceButtonTime = accumulatedDebounceButtonTime +
-                                        TIME_INCREMENT_MS;
+                                        SYSTEM_TIME_INCREMENT_MS;
         break;
 
 

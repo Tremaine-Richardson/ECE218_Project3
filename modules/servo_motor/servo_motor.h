@@ -5,6 +5,8 @@
 
 //=====[Declaration of public defines]=========================================
 
+#define DUTY_ZERO        .019
+
 //=====[Declaration of public data types]======================================
 
 //=====[Declarations (prototypes) of public functions]=========================

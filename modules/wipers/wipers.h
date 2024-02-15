@@ -9,6 +9,10 @@
 
 //=====[Declarations (prototypes) of public functions]=========================
 
+void wipersInit();
+void wipersUpdate();
+
+
 //=====[#include guards - end]=================================================
 
 #endif // _WIPERS_H_

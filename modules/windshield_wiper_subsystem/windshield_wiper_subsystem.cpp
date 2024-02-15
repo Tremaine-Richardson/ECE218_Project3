@@ -6,6 +6,7 @@
 
 #include "user_interface.h"
 #include "engine.h"
+#include "wipers.h"
 
 //=====[Declaration of private defines]========================================
 
@@ -27,12 +28,15 @@ void windshieldWiperSubsystemInit()
 {
     userInterfaceInit();
     engineInit();
+    wipersInit();
+    
 }
 
 void windshieldWiperSubsystemUpdate()
 {
     userInterfaceUpdate();
     engineUpdate();
+    wipersUpdate();
     delay(SYSTEM_TIME_INCREMENT_MS);
 }
 

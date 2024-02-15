@@ -5,7 +5,7 @@
 
 #include "user_interface.h"
 
-#include "smart_home_system.h"
+#include "windshield_wiper_subsystem.h"
 #include "display.h"
 
 //=====[Declaration of private defines]========================================
@@ -37,7 +37,6 @@ static void userInterfaceDisplayUpdate();
 
 void userInterfaceInit()
 {
-    incorrectCodeLed = OFF;
     engineLed = OFF;
     userInterfaceDisplayInit();
 }
@@ -63,53 +62,12 @@ void engineStateWrite( bool state )
 static void userInterfaceDisplayInit()
 {
     displayInit();
-     
     displayCharPositionWrite ( 0,0 );
-    displayStringWrite( "Tmp:" );
-
-    displayCharPositionWrite ( 9,0 );
-    displayStringWrite( "Gas:" );
-    
-    displayCharPositionWrite ( 0,1 );
-    displayStringWrite( "Alarm:" );
 }
 
 static void userInterfaceDisplayUpdate()
 {
-    static int accumulatedDisplayTime = 0;
-    char temperatureString[3] = "";
-    
-    if( accumulatedDisplayTime >=
-        DISPLAY_REFRESH_TIME_MS ) {
 
-        accumulatedDisplayTime = 0;
-
-        sprintf(temperatureString, "%.0f", temperatureSensorReadCelsius());
-        displayCharPositionWrite ( 4,0 );
-        displayStringWrite( temperatureString );
-        displayCharPositionWrite ( 6,0 );
-        displayStringWrite( "\337C" );
-
-        displayCharPositionWrite ( 13,0 );
-
-        if ( gasDetectorStateRead() ) {
-            displayStringWrite( "D" );
-        } else {
-            displayStringWrite( "ND" );
-        }
-
-        displayCharPositionWrite ( 6,1 );
-        
-        if ( sirenStateRead() ) {
-            displayStringWrite( "ON " );
-        } else {
-            displayStringWrite( "OFF" );
-        }
-
-    } else {
-        accumulatedDisplayTime =
-            accumulatedDisplayTime + SYSTEM_TIME_INCREMENT_MS;        
-    } 
 }
 
 static void engineIndicatorUpdate()

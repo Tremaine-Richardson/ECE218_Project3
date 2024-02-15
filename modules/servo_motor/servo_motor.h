@@ -11,6 +11,7 @@
 
 void servoInit();
 void servoDutyCycleWrite( float cycle );
+float servoPositionRead();
 
 //=====[#include guards - end]=================================================
 

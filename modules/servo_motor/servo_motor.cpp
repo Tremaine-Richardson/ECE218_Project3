@@ -8,6 +8,7 @@
 //=====[Declaration of private defines]========================================
 
 #define PERIOD          .02
+#define DUTY_MIN        .019
 
 //=====[Declaration of private data types]=====================================
 
@@ -17,7 +18,7 @@ PwmOut servo(PF_9);
 
 //=====[Declaration of external public global variables]=======================
 
-float servoPosition = 0.0;
+float servoPosition = DUTY_MIN;
 
 //=====[Declaration and initialization of public global variables]=============
 
@@ -35,7 +36,7 @@ void servoInit()
 void servoDutyCycleWrite( float cycle )
 {
     servo.write( cycle );
-    servoPosition = cycle
+    servoPosition = cycle;
 }
 
 float servoPositionRead()

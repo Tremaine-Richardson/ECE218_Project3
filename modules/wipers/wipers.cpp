@@ -8,6 +8,12 @@
 
 //=====[Declaration of private defines]========================================
 
+#define DUTY_ZERO .019
+#define DUTY_SIXTY_SEVEN .051
+
+#define LOW_SPEED_INCREMENT .0005
+#define HIGH_SPEED_INCREMENT .005
+
 //=====[Declaration of private data types]=====================================
 
 typedef enum {
@@ -17,6 +23,8 @@ typedef enum {
 } servoState_t;
 
 //=====[Declaration and initialization of public global objects]===============
+
+float servoPosition = 0.0;
 
 //=====[Declaration of external public global variables]=======================
 
@@ -32,8 +40,9 @@ servoState_t wipeState;
 
 void wipersInit()
 {
-    
-    wipeState = HOMED
+    servoInit();
+    wipeState = HOMED;
+    servoPosition = servoPositionRead();
 }
 
 void wipersUpdate()
@@ -45,16 +54,28 @@ void wipersUpdate()
 
 void wipeCycle(float increment)
 {
+    servoPosition = servoPositionRead();
     switch( wipeState ) {
         case WIPE_COUNTER_CLOCKWISE:
-            
+            if( servoPosition < DUTY_SIXTY_SEVEN ) {
+                servoDutyCycleWrite( servoPosition + increment );
+            }
+            else {
+                wipeState = WIPE_CLOCKWISE;
+            }
             break;
         
         case WIPE_CLOCKWISE:
+            if ( servoPosition > DUTY_ZERO ) {
+                servoDutyCycleWrite( servoPosition - increment);
+            }
+            else {
+                wipeState = HOMED;
+            }
             break;
         
         case HOMED:
-            wipeState = WIPE_COUNTER_CLOCKWISE
+            wipeState = WIPE_COUNTER_CLOCKWISE;
             break;
     }  
 }

@@ -183,7 +183,7 @@ static void wipeCycle(float increment)
     servoPosition = servoPositionRead();
     switch( wipeState ) {
         case WIPE_COUNTER_CLOCKWISE:
-            if( servoPosition < DUTY_SIXTY_SEVEN ) {
+            if( servoPosition <= DUTY_SIXTY_SEVEN ) {
                 servoDutyCycleWrite( servoPosition + increment );
             }
             else {
@@ -192,7 +192,7 @@ static void wipeCycle(float increment)
             break;
         
         case WIPE_CLOCKWISE:
-            if ( servoPosition > DUTY_ZERO ) {
+            if ( servoPosition >= DUTY_ZERO ) {
                 servoDutyCycleWrite( servoPosition - increment);
             }
             else {

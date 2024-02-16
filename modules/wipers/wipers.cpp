@@ -7,6 +7,7 @@
 #include "servo_motor.h"
 #include "windshield_wiper_subsystem.h"
 #include "potentiometer.h"
+#include "user_interface.h"
 
 //=====[Declaration of private defines]========================================
 
@@ -79,6 +80,7 @@ void wipersUpdate()
 {
     modeSelect = wiperMode();
     delaySelect = delayTime();
+    if ( engineStateRead() ) {
     if ( modeSelect < HIGH_MODE_THRESHOLD ) {
         if ( modeSelect < LOW_MODE_THRESHOLD ) {
             if ( modeSelect < INT_MODE_THRESHOLD ) {
@@ -105,7 +107,10 @@ void wipersUpdate()
     else {
         wipersHighMode();
     }
-    
+    }
+    else {
+        wipersOffMode();
+    }
 
 }
 

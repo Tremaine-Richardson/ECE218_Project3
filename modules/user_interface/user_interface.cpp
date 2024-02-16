@@ -7,6 +7,7 @@
 
 #include "windshield_wiper_subsystem.h"
 #include "display.h"
+#include "wipers.h"
 
 //=====[Declaration of private defines]========================================
 

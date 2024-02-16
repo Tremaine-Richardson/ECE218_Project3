@@ -46,12 +46,12 @@ typedef enum {
 
 //=====[Declaration of external public global variables]=======================
 
-int accumulatedTimeDelay = 0;
-float servoPosition = 0.0;
-float modeSelect = 0.0;
-float delaySelect = 0.0;
-
 //=====[Declaration and initialization of public global variables]=============
+
+static int accumulatedTimeDelay = 0;
+static float servoPosition = 0.0;
+static float modeSelect = 0.0;
+static float delaySelect = 0.0;
 
 //=====[Declaration and initialization of private global variables]============
 
@@ -60,11 +60,11 @@ modeState_t mode;
 
 //=====[Declarations (prototypes) of private functions]========================
 
-void wipersHighMode();
-void wipeCycle(float increment);
-void wipersLowMode();
-void wipersIntMode(int waitTime);
-void wipersOffMode();
+static void wipersHighMode();
+static void wipeCycle(float increment);
+static void wipersLowMode();
+static void wipersIntMode(int waitTime);
+static void wipersOffMode();
 
 //=====[Implementations of public functions]===================================
 
@@ -109,19 +109,38 @@ void wipersUpdate()
 
 }
 
+float wipersModeRead()
+{
+    if(mode == MODE_HIGH){
+        return 1.0;
+    }
+    if(mode == MODE_LOW){
+        return 2.0;
+    }
+    if(mode == MODE_OFF){
+        return 3.0;
+    }
+    if(mode == MODE_INT){
+        return 4.0;
+    }
+    return 0.0;
+}
+
 //=====[Implementations of private functions]==================================
 
-void wipersHighMode()
+static void wipersHighMode()
 {
     wipeCycle( HIGH_SPEED_INCREMENT );
+    mode = MODE_HIGH;
 }
 
-void wipersLowMode()
+static void wipersLowMode()
 {
     wipeCycle( LOW_SPEED_INCREMENT );
+    mode = MODE_LOW;
 }
 
-void wipersIntMode( int waitTime )
+static void wipersIntMode( int waitTime )
 {
     if( wipeState != HOMED ) {
         wipeCycle( LOW_SPEED_INCREMENT );
@@ -136,9 +155,10 @@ void wipersIntMode( int waitTime )
             accumulatedTimeDelay = 0;
         }
     }
+    mode = MODE_INT;
 }
 
-void wipersOffMode() 
+static void wipersOffMode() 
 {
     if( wipeState != HOMED) {
         if (mode == MODE_HIGH ) {
@@ -153,7 +173,7 @@ void wipersOffMode()
     }
 }
 
-void wipeCycle(float increment)
+static void wipeCycle(float increment)
 {
     servoPosition = servoPositionRead();
     switch( wipeState ) {

@@ -66,7 +66,7 @@ void engineUpdate()
 
 //=====[Implementations of private functions]==================================
 
-void ignitionSwitchInit()
+static void ignitionSwitchInit()
 {
     if( ignitionSwitch == 1) {
         ignitionSwitchState = BUTTON_UP;
@@ -76,7 +76,7 @@ void ignitionSwitchInit()
 }
 
 
-bool ignitionSwitchUpdate()
+static bool ignitionSwitchUpdate()
 {
     bool ignitionSwitchReleasedEvent = false;
     switch( ignitionSwitchState ) {

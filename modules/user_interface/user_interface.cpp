@@ -63,12 +63,46 @@ void engineStateWrite( bool state )
 static void userInterfaceDisplayInit()
 {
     displayInit();
-    displayCharPositionWrite ( 0,0 );
+    displayCharPositionWrite( 0,0 );
 }
 
 static void userInterfaceDisplayUpdate()
 {
+    static int accumulatedDisplayTime = 0;
 
+    if( accumulatedDisplayTime >= DISPLAY_REFRESH_TIME_MS ){
+        accumulatedDisplayTime = 0;
+
+        if( engineStateRead() ) {
+            displayCharPositionWrite( 0,0 );
+            displayStringWrite("Mode is");
+            displayCharPositionWrite( 8,0 );
+            switch( wipersModeRead() ){
+                case 1:
+                    displayStringWrite("HIGH");
+                    break;
+                
+                case 2:
+                    displayStringWrite("LOW ");
+                    break;
+
+                case 3:
+                    displayStringWrite("OFF ");
+                    break;
+
+                case 4:
+                    displayStringWrite("INT ");
+                    break;
+                 }
+            }
+        else {
+            displayClear();
+        }
+    }
+    else {
+        accumulatedDisplayTime =
+            accumulatedDisplayTime + SYSTEM_TIME_INCREMENT_MS;        
+    } 
 }
 
 static void engineIndicatorUpdate()

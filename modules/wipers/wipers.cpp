@@ -13,8 +13,8 @@
 
 #define DUTY_SIXTY_SEVEN .051
 
-#define LOW_SPEED_INCREMENT .0005
-#define HIGH_SPEED_INCREMENT .0008
+#define LOW_SPEED_INCREMENT .0003
+#define HIGH_SPEED_INCREMENT .0006
 
 #define HIGH_MODE_THRESHOLD .75
 #define LOW_MODE_THRESHOLD .5
@@ -80,55 +80,55 @@ void wipersUpdate()
 {
     modeSelect = wiperMode();
     delaySelect = delayTime();
-    if ( engineStateRead() ) {
-    if ( modeSelect < HIGH_MODE_THRESHOLD ) {
-        if ( modeSelect < LOW_MODE_THRESHOLD ) {
-            if ( modeSelect < INT_MODE_THRESHOLD ) {
-                wipersOffMode();
-            }
-            else {
-                if( delaySelect < LONG_DELAY_THRESHOLD ) {
-                    if( delaySelect < MEDIUM_DELAY_THRESHOLD ) {
-                        wipersIntMode(SHORT_DELAY);
-                    }
-                    else {
-                        wipersIntMode(MEDIUM_DELAY);
-                    }
-                }
-                else {
-                    wipersIntMode(LONG_DELAY);
-                }
-            }
+    if( engineStateRead() ) {
+        if( modeSelect >= HIGH_MODE_THRESHOLD ) {
+            wipersHighMode();
         }
-        else {
+        if( modeSelect >= LOW_MODE_THRESHOLD && modeSelect < HIGH_MODE_THRESHOLD ) {
             wipersLowMode();
         }
-    }
-    else {
-        wipersHighMode();
-    }
-    }
-    else {
-        wipersOffMode();
-    }
+        if(modeSelect < INT_MODE_THRESHOLD ) {
+            wipersOffMode(); 
+        }
+        if(modeSelect >= INT_MODE_THRESHOLD && modeSelect < LOW_MODE_THRESHOLD){
+            if(delaySelect >= LONG_DELAY_THRESHOLD){
+                wipersIntMode(LONG_DELAY);
+            }
+            if(delaySelect < LONG_DELAY_THRESHOLD && delaySelect >= MEDIUM_DELAY_THRESHOLD){
+                wipersIntMode(MEDIUM_DELAY);
+            }
+            if(delaySelect < MEDIUM_DELAY_THRESHOLD){
+                wipersIntMode(SHORT_DELAY);
+            }
 
+        }
+    }
 }
 
-float wipersModeRead()
+
+int wipersModeRead()
 {
-    if(mode == MODE_HIGH){
-        return 1.0;
+    switch( mode ){
+        case MODE_HIGH:
+            return 1;
+            break;
+        
+        case MODE_LOW:
+            return 2;
+            break;
+        
+        case MODE_OFF:
+            return 3;
+            break;
+        
+        case MODE_INT:
+            return 4;
+            break;
+        
+        default:
+            return 0;
+            break;
     }
-    if(mode == MODE_LOW){
-        return 2.0;
-    }
-    if(mode == MODE_OFF){
-        return 3.0;
-    }
-    if(mode == MODE_INT){
-        return 4.0;
-    }
-    return 0.0;
 }
 
 //=====[Implementations of private functions]==================================
@@ -173,9 +173,7 @@ static void wipersOffMode()
             wipeCycle( LOW_SPEED_INCREMENT );
         }
     }
-    else {
-        mode = MODE_OFF;
-    }
+    mode = MODE_OFF;
 }
 
 static void wipeCycle(float increment)

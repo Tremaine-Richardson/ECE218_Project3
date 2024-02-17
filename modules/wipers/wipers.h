@@ -11,7 +11,7 @@
 
 void wipersInit();
 void wipersUpdate();
-float wipersModeRead();
+int wipersModeRead();
 
 
 //=====[#include guards - end]=================================================

@@ -26,6 +26,10 @@ DigitalOut engineLed(LED2);
 //=====[Declaration and initialization of private global variables]============
 
 static bool engineState = OFF;
+static bool highMode = OFF;
+static bool lowMode = OFF;
+static bool intMode = OFF;
+static bool offMode = OFF;
 
 //=====[Declarations (prototypes) of private functions]========================
 
@@ -67,7 +71,7 @@ static void userInterfaceDisplayInit()
 }
 
 static void userInterfaceDisplayUpdate()
-{
+{   
     static int accumulatedDisplayTime = 0;
 
     if( accumulatedDisplayTime >= DISPLAY_REFRESH_TIME_MS ){
@@ -75,34 +79,60 @@ static void userInterfaceDisplayUpdate()
 
         if( engineStateRead() ) {
             displayCharPositionWrite( 0,0 );
-            displayStringWrite("Mode is");
-            displayCharPositionWrite( 8,0 );
             switch( wipersModeRead() ){
                 case 1:
-                    displayStringWrite("HIGH");
+                    if(!highMode) {
+                        displayStringWrite("Mode is HIGH");
+                    }
+                    highMode = ON;
+                    lowMode = OFF;
+                    intMode = OFF;
+                    offMode = OFF;
                     break;
                 
                 case 2:
-                    displayStringWrite("LOW ");
+                    if(!lowMode) {
+                        displayStringWrite("Mode is LOW ");
+                    }
+                    highMode = OFF;
+                    lowMode = ON;
+                    intMode = OFF;
+                    offMode = OFF;
                     break;
 
                 case 3:
-                    displayStringWrite("OFF ");
+                    if(!offMode) {
+                        displayStringWrite("Mode is OFF ");
+                    }
+                    highMode = OFF;
+                    lowMode = OFF;
+                    intMode = OFF;
+                    offMode = ON;
                     break;
 
                 case 4:
-                    displayStringWrite("INT ");
+                    if(!intMode) {
+                        displayStringWrite("Mode is INT ");
+                    }
+                    highMode = OFF;
+                    lowMode = OFF;
+                    intMode = ON;
+                    offMode = OFF;
                     break;
                  }
             }
         else {
             displayClear();
+            highMode = OFF;
+            lowMode = OFF;
+            intMode = OFF;
+            offMode = OFF;
         }
     }
     else {
-        accumulatedDisplayTime =
-            accumulatedDisplayTime + SYSTEM_TIME_INCREMENT_MS;        
-    } 
+        accumulatedDisplayTime = accumulatedDisplayTime + 10;
+    }
+
 }
 
 static void engineIndicatorUpdate()

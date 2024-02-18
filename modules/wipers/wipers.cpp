@@ -13,8 +13,8 @@
 
 #define DUTY_SIXTY_SEVEN .051
 
-#define LOW_SPEED_INCREMENT .0003
-#define HIGH_SPEED_INCREMENT .0006
+#define LOW_SPEED_INCREMENT .0007
+#define HIGH_SPEED_INCREMENT .001
 
 #define HIGH_MODE_THRESHOLD .75
 #define LOW_MODE_THRESHOLD .5
@@ -102,6 +102,9 @@ void wipersUpdate()
             }
 
         }
+    }
+    else {
+        wipersOffMode();
     }
 }
 

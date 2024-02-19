@@ -76,6 +76,14 @@ void wipersInit()
     servoPosition = servoPositionRead();
 }
 
+//wipersUpdate() reads the position of the wiper mode selector potentiometer and the delay
+//selector potentiometer and uses thresholds to determine where the potentiometer is and what
+//mode or delay time corresponds with that position. For the mode selector, each mode has its
+//own function that runs whenever the potentiometer is within their range. For the INT mode range
+//the delay selector potentiometer uses its position to pick which wait time parameter will be 
+//used in the INT mode function. The modes can be selected if the engineStateRead() reads that
+//the engine is on, otherwise the function will default to off mode
+
 void wipersUpdate()
 {
     modeSelect = wiperMode();
@@ -109,6 +117,8 @@ void wipersUpdate()
 }
 
 
+//uses the mode variable to send numbers corresponding to what mode the wipers are currently in,
+//this function is used in the user_interface module for the display aspect
 int wipersModeRead()
 {
     switch( mode ){
@@ -136,6 +146,10 @@ int wipersModeRead()
 
 //=====[Implementations of private functions]==================================
 
+//Each mode function runs wipeCycle with a given increment. For HIGH mode, it uses the high speed increment.
+//For LOW and INT mode, it uses the low speed increment. And for OFF mode, it depends on what the previous
+//mode was in, in order to finish its current wipe cycle (if it is in one) at the appropriate speed
+
 static void wipersHighMode()
 {
     wipeCycle( HIGH_SPEED_INCREMENT );
@@ -150,10 +164,11 @@ static void wipersLowMode()
 
 static void wipersIntMode( int waitTime )
 {
-    if( wipeState != HOMED ) {
+    if( wipeState != HOMED ) { //if the wipe is currently in a cycle, it completes its cycle
         wipeCycle( LOW_SPEED_INCREMENT );
     }
-    else {
+    else { //if a cycle has been complete and the wipeState is at home, it will wait for a given waitTime
+           //remained homed while it does so
         accumulatedTimeDelay = accumulatedTimeDelay + SYSTEM_TIME_INCREMENT_MS;
         if( accumulatedTimeDelay <= waitTime ) {
             wipeState = HOMED;
@@ -178,6 +193,17 @@ static void wipersOffMode()
     }
     mode = MODE_OFF;
 }
+
+//wipeCycle() takes an increment as a parameter and is the function that moves the servo. It works
+//by using a wipeState variable to determine if the servo should be moving clockwise, counter clockwise
+//or if it is currently at DUTY_ZERO, homed. The servo is initially homed, and once this function is
+//called it sets it to the counter clockwise state. From there, while the servo position is less than
+//the duty cycle value found to be 67 degrees, each time the wipeCycle function is called it will move
+//the servo counter clockwise by a given increment. This increment is what determines the speed where 
+//the higher the increment, the faster the servo will move. Once the servo position reaches the 67
+//degree mark, the wipe state will be set to clockwise and will now move clockwise by the given 
+//increment until it reaches DUTY_ZERO again. Once there, the wipe state gets set to home and the wipe
+//is complete. Then to start the next wipe, the wipeCycle() function will just need to be called once more
 
 static void wipeCycle(float increment)
 {

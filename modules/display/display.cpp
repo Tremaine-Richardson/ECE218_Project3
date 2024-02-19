@@ -179,6 +179,8 @@ void displayStringWrite( const char * str )
     }
 }
 
+
+//new function added to simply clear the display screen
 void displayClear()
 {
     displayCodeWrite( DISPLAY_RS_INSTRUCTION, 

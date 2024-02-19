@@ -70,6 +70,13 @@ static void userInterfaceDisplayInit()
     displayCharPositionWrite( 0,0 );
 }
 
+//userInterfaceDisplayUpdate() does the display writing using the wipersModeRead() function to 
+//determine what mode the wipers are in, and engineStateRead() for determining if the engine
+//is on or not. It uses a switch case to first figure out what mode it is in, and then an if
+//statement with boolean variables to determine if the mode was switched or not. If it was switched
+//then the new mode will be written on the display, if not, nothing will happen and whatever is on
+//the display will remain there presumably the current mode. This is to prevent the code from writing 
+//the same message on the display multiple times and thus making our code run slower. 
 static void userInterfaceDisplayUpdate()
 {   
     static int accumulatedDisplayTime = 0;

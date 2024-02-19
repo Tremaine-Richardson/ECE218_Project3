@@ -48,6 +48,10 @@ void engineInit()
     ignitionSwitch.mode(PullUp);
 }
 
+//engineUpdate() uses a FSM for debouncing the ignition switch button and for determining
+//when it is released. With that, we determine if the driver seat button is held and when
+//the ignition switch button gets released, we can write engine state as ON and the LED 
+//will update in the user_interface module
 void engineUpdate() 
 {
     bool ignitionSwitch = ignitionSwitchUpdate();
